@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/index.ts",
-      "use": "@vercel/node@1.12.0"
+  "functions": {
+    "api/index.ts": {
+      "runtime": "@vercel/node@1.12.0"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/webhook",
