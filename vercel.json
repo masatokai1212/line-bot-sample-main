@@ -8,9 +8,13 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/webhook",
       "dest": "/index.ts",
-      "methods": ["GET", "POST"]
+      "methods": ["POST"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.ts"
     }
   ]
 }
