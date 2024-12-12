@@ -44,19 +44,9 @@ const textEventHandler = async (
   }
 
   const { replyToken } = event;
-
   const { text } = event.message;
 
-  const resText = (() => {
-    switch (Math.floor(Math.random() * 3)) {
-      case 0:
-        return text.split("").reverse().join("");
-      case 1:
-        return text.split("").join(" ");
-      default:
-        return text.split("").reverse().join(" ");
-    }
-  })();
+  const resText = text; // オウム返し
   console.log(resText);
 
   const response: TextMessage = {
@@ -74,19 +64,14 @@ app.post(
   middleware(middlewareConfig),
   async (req: Request, res: Response): Promise<Response> => {
     const events: WebhookEvent[] = req.body.events;
-    await Promise.all(
-      events.map(async (event: WebhookEvent) => {
-        try {
-          await textEventHandler(event);
-        } catch (err: unknown) {
-          if (err instanceof Error) {
-            console.error(err);
-          }
-          return res.status(500);
-        }
-      })
-    );
-    return res.status(200);
+    await Promise.all(events.map(async (event) => {
+      try {
+        await textEventHandler(event);
+      } catch (err) {
+        console.error(err);
+      }
+    }));
+    return res.status(200).end();
   }
 );
 
